@@ -335,6 +335,7 @@ function ClassGenerater(mc, pc, ac)
     class.name = GetNextClassName(10, 40)
     usedname[class.name] = true
     --class.implement = "MonoBehaviour"
+
     class.properties = {}
     for i = 1, pc or 20 do
         table.insert(class.properties, PropertyGenerate(getRandomPublic(), GetNextName(10, 40), getRandomType()))

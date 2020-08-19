@@ -116,7 +116,7 @@ local base_type_randomfunction = {
                 "for(int i=0;i<" .. a .. ";++i)",
                 "{",
                 "	" .. b .. "+=1;",
-                "   " .. c .. "+=" .. b .. ";",
+                "	" .. c .. "+=" .. b .. ";",
                 "}",
             }
         else

@@ -34,20 +34,66 @@ class BaseFrame ( wx.Frame ):
 		bSizer2.Add( self.m_outputDirPicker, 1, wx.ALL, 5 )
 
 
-		bSizer1.Add( bSizer2, 1, wx.EXPAND, 5 )
+		bSizer1.Add( bSizer2, 0, wx.EXPAND, 5 )
 
-		bSizer4 = wx.BoxSizer( wx.HORIZONTAL )
+		bSizer4 = wx.BoxSizer( wx.VERTICAL )
 
-		self.m_staticText2 = wx.StaticText( self, wx.ID_ANY, u"文件个数", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer7 = wx.BoxSizer( wx.HORIZONTAL )
+
+		self.m_staticText2 = wx.StaticText( self, wx.ID_ANY, u"文件数量范围", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText2.Wrap( -1 )
 
-		bSizer4.Add( self.m_staticText2, 0, wx.ALL, 5 )
+		bSizer7.Add( self.m_staticText2, 0, wx.ALL, 5 )
 
-		self.m_classCountTextCtrl = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		bSizer4.Add( self.m_classCountTextCtrl, 0, wx.ALL, 5 )
+		self.m_classMinTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"10", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
+		bSizer7.Add( self.m_classMinTextCtrl, 0, wx.ALL|wx.EXPAND, 5 )
+
+		self.m_classMaxTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"10", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
+		bSizer7.Add( self.m_classMaxTextCtrl, 0, wx.ALL, 5 )
+
+		self.m_staticText3 = wx.StaticText( self, wx.ID_ANY, u"函数数量范围", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText3.Wrap( -1 )
+
+		bSizer7.Add( self.m_staticText3, 0, wx.ALL, 5 )
+
+		self.m_methodMinTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"10", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
+		bSizer7.Add( self.m_methodMinTextCtrl, 0, wx.ALL, 5 )
+
+		self.m_methodMaxTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"10", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
+		bSizer7.Add( self.m_methodMaxTextCtrl, 0, wx.ALL, 5 )
 
 
-		bSizer1.Add( bSizer4, 1, wx.EXPAND, 5 )
+		bSizer4.Add( bSizer7, 1, wx.EXPAND, 5 )
+
+		bSizer9 = wx.BoxSizer( wx.HORIZONTAL )
+
+		self.m_staticText4 = wx.StaticText( self, wx.ID_ANY, u"属性数量范围", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText4.Wrap( -1 )
+
+		bSizer9.Add( self.m_staticText4, 0, wx.ALL, 5 )
+
+		self.m_attrMinTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"10", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
+		bSizer9.Add( self.m_attrMinTextCtrl, 0, wx.ALL, 5 )
+
+		self.m_attrMaxTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"10", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
+		bSizer9.Add( self.m_attrMaxTextCtrl, 0, wx.ALL, 5 )
+
+		self.m_staticText5 = wx.StaticText( self, wx.ID_ANY, u"变量数量范围", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText5.Wrap( -1 )
+
+		bSizer9.Add( self.m_staticText5, 0, wx.ALL, 5 )
+
+		self.m_varMinTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"10", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
+		bSizer9.Add( self.m_varMinTextCtrl, 0, wx.ALL, 5 )
+
+		self.m_varMaxTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"10", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
+		bSizer9.Add( self.m_varMaxTextCtrl, 0, wx.ALL, 5 )
+
+
+		bSizer4.Add( bSizer9, 1, wx.EXPAND, 5 )
+
+
+		bSizer1.Add( bSizer4, 0, wx.EXPAND, 5 )
 
 		bSizer3 = wx.BoxSizer( wx.VERTICAL )
 
@@ -57,6 +103,14 @@ class BaseFrame ( wx.Frame ):
 
 		bSizer1.Add( bSizer3, 0, wx.EXPAND, 5 )
 
+		bSizer5 = wx.BoxSizer( wx.VERTICAL )
+
+		self.m_logTextCtrl = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_MULTILINE|wx.TE_READONLY )
+		bSizer5.Add( self.m_logTextCtrl, 1, wx.ALL|wx.EXPAND, 5 )
+
+
+		bSizer1.Add( bSizer5, 1, wx.EXPAND, 5 )
+
 
 		self.SetSizer( bSizer1 )
 		self.Layout()
@@ -64,8 +118,7 @@ class BaseFrame ( wx.Frame ):
 		self.Centre( wx.BOTH )
 
 		# Connect Events
-		self.m_outputDirPicker.Bind( wx.EVT_DIRPICKER_CHANGED, self.OnOutputDirChanged )
-		self.m_classCountTextCtrl.Bind( wx.EVT_TEXT, self.OnClassCountChanged )
+		self.m_classMinTextCtrl.Bind( wx.EVT_TEXT, self.OnClassCountChanged )
 		self.m_button1.Bind( wx.EVT_BUTTON, self.OnClickStart )
 
 	def __del__( self ):
@@ -73,9 +126,6 @@ class BaseFrame ( wx.Frame ):
 
 
 	# Virtual event handlers, overide them in your derived class
-	def OnOutputDirChanged( self, event ):
-		event.Skip()
-
 	def OnClassCountChanged( self, event ):
 		event.Skip()
 

@@ -144,7 +144,6 @@ careful
 careless
 carry
 casual
-catch
 cattle
 cause
 ceiling
@@ -2347,7 +2346,6 @@ decency
 decent
 decided
 decidedly
-decimal
 decisive
 declaration
 decline
@@ -2386,7 +2384,6 @@ defray
 degradation
 degrade
 delcredere
-delegate
 delegation
 delete
 deletion
@@ -12208,7 +12205,6 @@ uncanny
 unchangeable
 uncharitableness
 uncharted
-unchecked
 uncommitted
 uncommunicative
 unconcern

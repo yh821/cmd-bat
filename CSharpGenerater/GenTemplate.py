@@ -3,14 +3,14 @@
 numberValue = '0'
 
 TypeDefaultValue = {
+	'ushort': numberValue,
 	'short': numberValue,
+	'uint': numberValue,
 	'int': numberValue,
+	'ulong': numberValue,
 	'long': numberValue,
 	'float': numberValue,
 	'double': numberValue,
-	'ushort': numberValue,
-	'uint': numberValue,
-	'ulong': numberValue,
 	'bool': 'false',
 	'string': 'string.Empty',
 	'Vector2': 'Vector2.zero',
@@ -19,10 +19,10 @@ TypeDefaultValue = {
 }
 
 TypeList = [
-	'short',
-	'ushort',
-	'int',
+	# 'ushort',
+	# 'short',
 	'uint',
+	'int',
 	'long',
 	'ulong',
 	'float',
@@ -62,14 +62,14 @@ numberMethod = [
 ]
 
 MethodList = {
+	'ushort': numberMethod,
 	'short': numberMethod,
+	'uint': numberMethod,
 	'int': numberMethod,
+	'ulong': numberMethod,
 	'long': numberMethod,
 	'float': numberMethod,
 	'double': numberMethod,
-	'ushort': numberMethod,
-	'uint': numberMethod,
-	'ulong': numberMethod,
 	'bool': [
 		'return arg1 && arg2;',
 		'''if (arg1) {{
@@ -78,6 +78,9 @@ MethodList = {
 				return arg1 && arg2;
 			}}'''
 	],
+	'string': [
+		'return string.Concat (arg1, arg2);'
+	]
 }
 
 classTemplate = '''//Auto-generated code

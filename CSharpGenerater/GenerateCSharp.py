@@ -8,15 +8,20 @@ from GenTemplate import *
 allClassNameList = None
 allMethodNameList = None
 allPropertyNameList = None
+namespace = ''
 
 
 class BaseInfo:
-	access = None  # public or private
+	access = False  # public or private
 	typo = None  # void
 	name = ""
 
-	def __init__(self, name):
+	def __init__(self, name, access):
 		self.name = name
+		if access:
+			self.access = 'public'
+		else:
+			self.access = 'private'
 
 
 class ClassInfo(BaseInfo):
@@ -28,53 +33,66 @@ class ClassInfo(BaseInfo):
 	properties = None
 
 	def __init__(self, name):
-		BaseInfo.__init__(self, name)
-		self.access = 'public'
+		BaseInfo.__init__(self, name, True)
 
 
 class MethodInfo(BaseInfo):
-	params = None  # BaseInfoList
+	havearg = False
 
-	def __init__(self, name, typo):
-		BaseInfo.__init__(self, name)
+	def __init__(self, name, access, typo, havearg):
+		BaseInfo.__init__(self, name, access)
 		self.typo = typo
+		self.havearg = havearg
 
 
 class AttributeInfo(BaseInfo):
-	canset = False
+	state = 1  # 1-3
+	haveset = False
 
-	def __init__(self, name, typo, canset=False):
-		BaseInfo.__init__(self, name)
-		self.access = 'public'
+	def __init__(self, name, typo, state, haveset):
+		BaseInfo.__init__(self, name, True)
 		self.typo = typo
-		self.getset = canset
+		self.state = state
+		self.haveset = haveset
 
 
 class PropertiesInfo(BaseInfo):
-	value = None
+	havevalue = False
 
-	def __init__(self, name, typo):
-		BaseInfo.__init__(self, name)
+	def __init__(self, name, access, typo, havevalue):
+		BaseInfo.__init__(self, name, access)
 		self.typo = typo
+		self.havevalue = havevalue
 
 
 # mc: 函数数量
 # pc: 变量数量
 # ac: 属性数量
-def ClassGenerater(mc, pc, ac):
+def ClassGenerater(ns, mc, pc, ac):
 	_class = ClassInfo(GetClassName())
 	# _class.implement = 'MonoBehaviour'
+	_class.namespace = ns
 	_class.methods = []
 	for i in range(0, mc):
-		_class.methods.append(MethodInfo(GetMethodName(), GetRandomType()))
+		_class.methods.append(
+			MethodInfo(GetMethodName(), random.random() > 0.5, GetRandomType(), random.random() > 0.5))
 	_class.properties = []
 	for i in range(0, pc):
-		_class.properties.append(PropertiesInfo(GetVariableName(), GetRandomType()))
+		_class.properties.append(
+			PropertiesInfo(GetVariableName(), random.random() > 0.5, GetRandomType(), random.random() > 0.5))
 	_class.attributes = []
 	for j in range(0, ac):
-		_class.attributes.append(AttributeInfo(GetVariableName(), GetRandomType()))
+		_class.attributes.append(
+			AttributeInfo(GetVariableName(), GetRandomType(), random.randint(1, 3), random.random() > 0.5))
 
 	return _class
+
+
+def GetNameSpace():
+	global namespace
+	if namespace == '':
+		namespace = GetClassName()
+	return namespace
 
 
 # 获取类名
@@ -143,12 +161,8 @@ def WriteLine(content, append, tab=0):
 
 
 def PrintClass(info):
-	tab = 0
-	content = WriteLine('', info.access + ' class ' + info.name + (
-			info.implement != None and (' : ' + info.implement) or ''), tab)
-	content = WriteLine(content, '{', tab)
-	tab += 1
-
+	content = classTemplate.format(namespace=info.namespace, classname=info.name, implement=info.implement or '')
+	tab = 2
 	if info.properties != None:
 		for m in info.properties:
 			content = WriteLine(content, PrintProperty(m, tab))
@@ -161,25 +175,22 @@ def PrintClass(info):
 		for m in info.methods:
 			content = WriteLine(content, PrintMethod(m, tab))
 
-	tab -= 1
-	content = WriteLine(content, '}', tab)
+	content += '\t}\r\n}'
 
 	return content
 
 
 def PrintMethod(info, tab):
 	param_str = ''
-	if info.params != None:
-		i = 0
-		for arg in info.params:
-			if i == 0:
-				param_str += '{0} {1}'.format(arg.typo, arg.name)
-			else:
-				param_str += ', {0} {1}'.format(arg.typo, arg.name)
-
-	content = '{0} {1} {2} ({3}) {{'.format(info.access or 'private', info.typo or 'void', info.name, param_str)
+	if info.havearg:
+		param_str = '{0} arg1, {0} arg2'.format(info.typo)
+	content = '{0} {1} {2} ({3}) {{'.format(info.access, info.typo, info.name, param_str)
 	content = WriteLine('', content, tab)
 	tab += 1
+	if not info.havearg:
+		defvalue = TypeDefaultValue[info.typo]
+		content = WriteLine(content, '{0} arg1 = {1};'.format(info.typo, defvalue), tab)
+		content = WriteLine(content, '{0} arg2 = {1};'.format(info.typo, defvalue), tab)
 	if info.typo in MethodList:
 		methods = MethodList[info.typo]
 		method_str = methods[random.randint(0, len(methods) - 1)]
@@ -190,12 +201,22 @@ def PrintMethod(info, tab):
 
 
 def PrintAttribute(info, tab):
-	content = '{0} {1} {2} {{'.format(info.access, info.typo, info.name)
-	content = WriteLine('', content, tab)
+	content = ''
+	value = TypeDefaultValue[info.typo]
+	if info.state == 3:
+		content = WriteLine(content, 'private {0} _{1} = {2};'.format(info.typo, info.name, value), tab)
+	content = WriteLine(content, '{0} {1} {2} {{'.format(info.access, info.typo, info.name), tab)
 	tab += 1
-	content = WriteLine(content, 'get {{ return {0}; }}'.format(TypeDefaultValue[info.typo]), tab)
-	if info.canset:
-		content = WriteLine(content, 'set {{ value = {0}; }}'.format(TypeDefaultValue[info.typo]), tab)
+	if info.state == 3:
+		content = WriteLine(content, 'get {{ return _{0}; }}'.format(info.name), tab)
+		if info.haveset:
+			content = WriteLine(content, 'set {{ _{0} = value; }}'.format(info.name), tab)
+	elif info.state == 2:
+		content = WriteLine(content, 'get;', tab)
+		if info.haveset:
+			content = WriteLine(content, 'set;', tab)
+	else:
+		content = WriteLine(content, 'get {{ return {0}; }}'.format(value), tab)
 	tab -= 1
 	content = WriteLine(content, '}', tab)
 
@@ -203,5 +224,10 @@ def PrintAttribute(info, tab):
 
 
 def PrintProperty(info, tab):
-	content = WriteLine('', '{0} {1} {2};'.format(info.access or 'private', info.typo, info.name), tab)
+	content = ''
+	if info.havevalue:
+		content = WriteLine(content, '{0} {1} _{2} = {3};'.format(
+			info.access, info.typo, info.name, TypeDefaultValue[info.typo]), tab)
+	else:
+		content = WriteLine(content, '{0} {1} _{2};'.format(info.access, info.typo, info.name), tab)
 	return content

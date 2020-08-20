@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 
+numberValue = '0'
+
 TypeDefaultValue = {
-	'short': '0',
-	'int': '0',
-	'long': '0',
-	'float': '0.0f',
-	'double': '0.0',
-	'ushort': '0',
-	'uint': '0',
-	'ulong': '0',
+	'short': numberValue,
+	'int': numberValue,
+	'long': numberValue,
+	'float': numberValue,
+	'double': numberValue,
+	'ushort': numberValue,
+	'uint': numberValue,
+	'ulong': numberValue,
 	'bool': 'false',
 	'string': 'string.Empty',
 	'Vector2': 'Vector2.zero',
@@ -17,15 +19,15 @@ TypeDefaultValue = {
 }
 
 TypeList = [
-	'bool',
-	'int',
 	'short',
+	'ushort',
+	'int',
+	'uint',
 	'long',
+	'ulong',
 	'float',
 	'double',
-	'ushort',
-	'uint',
-	'ulong',
+	'bool',
 	'string',
 	# 'Vector2',
 	# 'Vector3',
@@ -46,37 +48,48 @@ CtrlList = [
 	'Model'
 ]
 
+numberMethod = [
+	'return arg1 + arg2;',
+	'''for (int i = 0; i < 20; i++) {{
+				arg1 += arg2;
+			}}
+			return arg1;''',
+	'''if (arg1 > 0) {{
+				return arg1;
+			}} else {{
+				return arg2;
+			}}'''
+]
+
 MethodList = {
-	'int': [
-		'{0} = {1} + {2};',
-		'{0} = {1} - {2};',
-		'{0} = {1} * {2};',
-		'{0} = {1} / {2};',
-		'{0} = {1};',
-		'''
-		for (int i=0;i<{0};i++) {{
-			{1} += 1;
-			{2} += {1};
-		}}
-		'''
-	],
+	'short': numberMethod,
+	'int': numberMethod,
+	'long': numberMethod,
+	'float': numberMethod,
+	'double': numberMethod,
+	'ushort': numberMethod,
+	'uint': numberMethod,
+	'ulong': numberMethod,
 	'bool': [
-		'{0} = {1} && {2};',
-		'''
-		if ({0}) {{
-			{1} = !{2};
-		}}
-		''',
-		'''
-		if ({0} && {2}) {{
-			{1} = !{1};
-		}}
-		''',
-		'''
-		if ({0} || {1}) {{
-			{2} = !{2};
-		}}
-		''',
-		'{0} = {1} || {2};',
+		'return arg1 && arg2;',
+		'''if (arg1) {{
+				return arg1 || arg2;
+			}} else {{
+				return arg1 && arg2;
+			}}'''
 	],
 }
+
+classTemplate = '''//Auto-generated code
+using System;
+using System.Collections;
+
+namespace {namespace}
+{{
+	public class {classname} {implement}
+	{{
+'''
+
+methodTemplate = '''
+		{access} {typo} {name} ({})
+'''

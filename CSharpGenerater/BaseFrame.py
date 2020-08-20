@@ -45,10 +45,10 @@ class BaseFrame ( wx.Frame ):
 
 		bSizer7.Add( self.m_staticText2, 0, wx.ALL, 5 )
 
-		self.m_classMinTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"10", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
+		self.m_classMinTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"200", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
 		bSizer7.Add( self.m_classMinTextCtrl, 0, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_classMaxTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"10", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
+		self.m_classMaxTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"300", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
 		bSizer7.Add( self.m_classMaxTextCtrl, 0, wx.ALL, 5 )
 
 		self.m_staticText3 = wx.StaticText( self, wx.ID_ANY, u"函数数量范围", wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -56,10 +56,10 @@ class BaseFrame ( wx.Frame ):
 
 		bSizer7.Add( self.m_staticText3, 0, wx.ALL, 5 )
 
-		self.m_methodMinTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"10", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
+		self.m_methodMinTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"30", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
 		bSizer7.Add( self.m_methodMinTextCtrl, 0, wx.ALL, 5 )
 
-		self.m_methodMaxTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"10", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
+		self.m_methodMaxTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"50", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
 		bSizer7.Add( self.m_methodMaxTextCtrl, 0, wx.ALL, 5 )
 
 
@@ -72,10 +72,10 @@ class BaseFrame ( wx.Frame ):
 
 		bSizer9.Add( self.m_staticText4, 0, wx.ALL, 5 )
 
-		self.m_attrMinTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"10", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
+		self.m_attrMinTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"15", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
 		bSizer9.Add( self.m_attrMinTextCtrl, 0, wx.ALL, 5 )
 
-		self.m_attrMaxTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"10", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
+		self.m_attrMaxTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"20", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
 		bSizer9.Add( self.m_attrMaxTextCtrl, 0, wx.ALL, 5 )
 
 		self.m_staticText5 = wx.StaticText( self, wx.ID_ANY, u"变量数量范围", wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -83,7 +83,7 @@ class BaseFrame ( wx.Frame ):
 
 		bSizer9.Add( self.m_staticText5, 0, wx.ALL, 5 )
 
-		self.m_varMinTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"10", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
+		self.m_varMinTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"5", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
 		bSizer9.Add( self.m_varMinTextCtrl, 0, wx.ALL, 5 )
 
 		self.m_varMaxTextCtrl = wx.TextCtrl( self, wx.ID_ANY, u"10", wx.DefaultPosition, wx.Size( 60,-1 ), 0 )
@@ -103,13 +103,8 @@ class BaseFrame ( wx.Frame ):
 
 		bSizer1.Add( bSizer3, 0, wx.EXPAND, 5 )
 
-		bSizer5 = wx.BoxSizer( wx.VERTICAL )
-
 		self.m_logTextCtrl = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_MULTILINE|wx.TE_READONLY )
-		bSizer5.Add( self.m_logTextCtrl, 1, wx.ALL|wx.EXPAND, 5 )
-
-
-		bSizer1.Add( bSizer5, 1, wx.EXPAND, 5 )
+		bSizer1.Add( self.m_logTextCtrl, 1, wx.ALL|wx.EXPAND, 5 )
 
 
 		self.SetSizer( bSizer1 )
@@ -118,7 +113,6 @@ class BaseFrame ( wx.Frame ):
 		self.Centre( wx.BOTH )
 
 		# Connect Events
-		self.m_classMinTextCtrl.Bind( wx.EVT_TEXT, self.OnClassCountChanged )
 		self.m_button1.Bind( wx.EVT_BUTTON, self.OnClickStart )
 
 	def __del__( self ):
@@ -126,9 +120,6 @@ class BaseFrame ( wx.Frame ):
 
 
 	# Virtual event handlers, overide them in your derived class
-	def OnClassCountChanged( self, event ):
-		event.Skip()
-
 	def OnClickStart( self, event ):
 		event.Skip()
 

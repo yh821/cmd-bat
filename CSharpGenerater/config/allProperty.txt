@@ -123,7 +123,6 @@ brain
 branch
 brave
 bread
-break
 breakfast
 breath
 breathe
@@ -177,7 +176,6 @@ Christmas
 church
 cinema
 circle
-class
 classroom
 clean
 clear
@@ -214,7 +212,6 @@ confident
 connect
 consider
 contact
-continue
 continuous
 contrary
 control
@@ -326,7 +323,6 @@ especially
 Europe
 European
 evening
-event
 eventually
 every
 everybody
@@ -726,7 +722,6 @@ proud
 prove
 provide
 province
-public
 punish
 pupil
 purpose
@@ -770,7 +765,6 @@ respect
 responsible
 restaurant
 result
-return
 review
 revolution
 reward
@@ -822,7 +816,6 @@ shirt
 shock
 shoot
 shore
-short
 should
 shoulder
 shout
@@ -962,7 +955,6 @@ thousand
 three
 through
 throughout
-throw
 Thursday
 ticket
 tired
@@ -1035,7 +1027,6 @@ whenever
 where
 whether
 which
-while
 whisper
 white
 whole
@@ -1086,7 +1077,6 @@ absolute
 absolutely
 absorb
 absorption
-abstract
 abstraction
 absurd
 absurdity
@@ -1485,7 +1475,6 @@ avenue
 average
 averagely
 aviation
-await
 awaken
 aware
 awesome
@@ -2374,7 +2363,6 @@ deduct
 deduction
 deepen
 deeply
-default
 defect
 defective
 defence
@@ -2993,7 +2981,6 @@ expire
 expiry
 explanation
 explanatory
-explicit
 explicitly
 explode
 exploit
@@ -3138,7 +3125,6 @@ fishery
 fission
 fitness
 fitting
-fixed
 fixture
 flake
 flame
@@ -3817,12 +3803,10 @@ interact
 interaction
 intercourse
 interested
-interface
 interfere
 interference
 interior
 intermediate
-internal
 international
 internationalization
 internationalize
@@ -4520,7 +4504,6 @@ opera
 operate
 operational
 operative
-operator
 opium
 opponent
 opportune
@@ -4954,7 +4937,6 @@ priority
 prism
 prisoner
 privacy
-private
 privilege
 privileged
 probability
@@ -5856,7 +5838,6 @@ startle
 starvation
 statement
 statesman
-static
 stationary
 stationery
 statistical
@@ -6055,7 +6036,6 @@ swell
 swift
 swing
 Swiss
-switch
 Switzerland
 sword
 syllable
@@ -6496,7 +6476,6 @@ violent
 violet
 violin
 virgin
-virtual
 virtually
 virtue
 virus
@@ -6659,7 +6638,6 @@ yacht
 yearly
 yearn
 yeast
-yield
 youngster
 youth
 youthful
@@ -9355,7 +9333,6 @@ implacable
 implant
 implausible
 implicate
-implicit
 implode
 implosion
 impolitic
@@ -10453,7 +10430,6 @@ overhaul
 overpower
 overpowering
 overreach
-override
 overriding
 overrule
 oversee
@@ -12513,7 +12489,6 @@ vivacious
 vocal
 vocalist
 vociferous
-volatile
 volition
 volubility
 voluble

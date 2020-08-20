@@ -28,7 +28,6 @@ class GenCSFrame(BaseFrame):
 	def __init__(self, parent):
 		BaseFrame.__init__(self, parent)
 		Redirect(self.m_logTextCtrl)
-		self.RefreshGenCount()
 
 	def RefreshGenCount(self):
 		classMin = int(self.m_classMinTextCtrl.GetValue())
@@ -49,20 +48,23 @@ class GenCSFrame(BaseFrame):
 		pass
 
 	def OnClickStart(self, event):
-		outputPath = self.m_outputDirPicker.GetPath()
-		if outputPath == '':
+		self.RefreshGenCount()
+		path = self.m_outputDirPicker.GetPath()
+		if path == '':
 			self.ShowMessageDialog('错误', '请选择输出路径')
 			return
+		space = GetNameSpace()
+		outdir = os.path.join(path, space)
+		if not os.path.exists(outdir):
+			os.makedirs(outdir)
 		for i in range(0, self.classCount):
-			info = ClassGenerater(self.methodCount, self.attrCount, self.varCount)
-			path = os.path.join(outputPath, '%s.cs' % info.name)
+			info = ClassGenerater(space, self.methodCount, self.attrCount, self.varCount)
+			path = os.path.join(outdir, '%s.cs' % info.name)
 			with open(path, 'w+') as f:
 				f.write(PrintClass(info))
-				print '生成C#文件: %s' % path
-		print '================生成完成================'
-
-	def OnClassCountChanged(self, event):
-		self.RefreshGenCount(int(self.m_classCountTextCtrl.GetValue()))
+				print '生成文件: %s' % path
+		print '========生成完成,类:{0},函数:{1},属性:{2},变量:{3}========'.format(
+			self.classCount, self.methodCount, self.attrCount, self.varCount)
 
 	def ShowMessageDialog(self, title, message):
 		dlg = wx.MessageDialog(None, message, title, wx.OK)

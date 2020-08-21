@@ -63,13 +63,14 @@ class GenCSFrame(BaseFrame):
 		if not (os.path.exists(self.script_path) and os.path.exists(self.plugin_path)):
 			self.ShowMessageDialog('错误', '工程目录不存在, 请重新选择')
 			return
+		print '\033[32m================开始生成代码================\033[0m'
 		self.DoGenCSFile(self.script_path)
 		self.DoGenCSFile(self.plugin_path)
 
 	def DoGenCSFile(self, output):
 		self.RefreshGenCount()
 		space = GetNameSpace()
-		output_dir = os.path.join(output, folderFlag + '_' + space)
+		output_dir = os.path.join(output, folderFlag + space)
 		if not os.path.exists(output_dir):
 			os.makedirs(output_dir)
 		for i in range(0, self.classCount):
@@ -78,7 +79,7 @@ class GenCSFrame(BaseFrame):
 			with open(path, 'w+') as f:
 				f.write(PrintClass(info))
 				print '生成文件: %s' % path
-		print '========生成完成,类:{0},函数:{1},属性:{2},变量:{3}========'.format(
+		print '\033[32m========生成完成,类:{0},函数:{1},属性:{2},变量:{3}========\033[0m'.format(
 			self.classCount, self.methodCount, self.attrCount, self.varCount)
 
 	def OnClickDelete(self, event):

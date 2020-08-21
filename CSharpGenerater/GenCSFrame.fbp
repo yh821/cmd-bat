@@ -45,7 +45,7 @@
             <property name="minimum_size"></property>
             <property name="name">BaseFrame</property>
             <property name="pos"></property>
-            <property name="size">500,300</property>
+            <property name="size">470,350</property>
             <property name="style">wxDEFAULT_FRAME_STYLE</property>
             <property name="subclass">; ; forward_declare</property>
             <property name="title">C#生成工具</property>

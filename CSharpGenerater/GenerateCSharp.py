@@ -104,9 +104,14 @@ def GetClassName(hasExt=True):
 		with open(path, 'rU') as f:
 			for line in f.readlines():
 				allClassNameList.append(line.strip())
-	index = random.randint(0, len(allClassNameList) - 1)
+	num = len(allClassNameList) - 1
+	index = random.randint(0, num)
 	className = allClassNameList[index]
 	allClassNameList.remove(className)
+	# print 'len:%s, index:%s, name:%s' % (num, index, className)
+	if num <= 1:
+		allClassNameList = None
+		print '\033[31m{0}\033[0m'.format('类名库已经耗尽, 重新载入')
 	return className.capitalize() + (hasExt and GetRendomExt() or '')
 
 
@@ -119,9 +124,14 @@ def GetMethodName(isCap=True):
 		with open(allMethodFilePath, 'rU') as f:
 			for line in f.readlines():
 				allMethodNameList.append(line.strip())
-	index = random.randint(0, len(allMethodNameList) - 1)
+	num = len(allMethodNameList) - 1
+	index = random.randint(0, num)
 	methodName = allMethodNameList[index]
 	allMethodNameList.remove(methodName)
+	# print 'len:%s, index:%s, name:%s' % (num, index, methodName)
+	if num <= 1:
+		allMethodNameList = None
+		print '\033[31m{0}\033[0m'.format('函数名库已经耗尽, 重新载入')
 	if isCap:
 		return methodName.capitalize()
 	else:
@@ -137,9 +147,14 @@ def GetVariableName():
 		with open(path, 'rU') as f:
 			for line in f.readlines():
 				allPropertyNameList.append(line.strip())
-	index = random.randint(0, len(allPropertyNameList) - 1)
+	num = len(allPropertyNameList) - 1
+	index = random.randint(0, num)
 	propertyName = allPropertyNameList[index]
 	allPropertyNameList.remove(propertyName)
+	# print 'len:%s, index:%s, name:%s' % (num, index, propertyName)
+	if num <= 1:
+		allPropertyNameList = None
+		print '\033[31m{0}\033[0m'.format('变量名库已经耗尽, 重新载入')
 	return propertyName
 
 

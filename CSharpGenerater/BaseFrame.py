@@ -30,8 +30,8 @@ class BaseFrame ( wx.Frame ):
 
 		bSizer2.Add( self.m_staticText1, 0, wx.ALL, 5 )
 
-		self.m_outputDirPicker = wx.DirPickerCtrl( self, wx.ID_ANY, wx.EmptyString, u"选择输出文件的路径", wx.DefaultPosition, wx.DefaultSize, wx.DIRP_DEFAULT_STYLE|wx.DIRP_SMALL )
-		bSizer2.Add( self.m_outputDirPicker, 1, wx.ALL, 5 )
+		self.m_projectDirPicker = wx.DirPickerCtrl( self, wx.ID_ANY, wx.EmptyString, u"选择输出文件的路径", wx.DefaultPosition, wx.DefaultSize, wx.DIRP_DEFAULT_STYLE|wx.DIRP_SMALL )
+		bSizer2.Add( self.m_projectDirPicker, 1, wx.ALL, 5 )
 
 		self.m_button8 = wx.Button( self, wx.ID_ANY, u"配置", wx.DefaultPosition, wx.Size( 45,-1 ), 0 )
 		bSizer2.Add( self.m_button8, 0, wx.ALL, 5 )
@@ -109,6 +109,22 @@ class BaseFrame ( wx.Frame ):
 
 		bSizer1.Add( bSizer3, 0, wx.EXPAND, 5 )
 
+		bSizer21 = wx.BoxSizer( wx.HORIZONTAL )
+
+		self.m_staticText11 = wx.StaticText( self, wx.ID_ANY, u"输出路径", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText11.Wrap( -1 )
+
+		bSizer21.Add( self.m_staticText11, 0, wx.ALL, 5 )
+
+		self.m_outputDirPicker = wx.DirPickerCtrl( self, wx.ID_ANY, wx.EmptyString, u"选择输出文件的路径", wx.DefaultPosition, wx.DefaultSize, wx.DIRP_DEFAULT_STYLE|wx.DIRP_SMALL )
+		bSizer21.Add( self.m_outputDirPicker, 1, wx.ALL, 5 )
+
+		self.m_button81 = wx.Button( self, wx.ID_ANY, u"爬取函数", wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
+		bSizer21.Add( self.m_button81, 0, wx.ALL, 5 )
+
+
+		bSizer1.Add( bSizer21, 0, wx.EXPAND, 5 )
+
 		self.m_logTextCtrl = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_MULTILINE|wx.TE_READONLY )
 		bSizer1.Add( self.m_logTextCtrl, 1, wx.ALL|wx.EXPAND, 5 )
 
@@ -119,10 +135,12 @@ class BaseFrame ( wx.Frame ):
 		self.Centre( wx.BOTH )
 
 		# Connect Events
-		self.m_outputDirPicker.Bind( wx.EVT_DIRPICKER_CHANGED, self.OnProjectDirChanged )
+		self.m_projectDirPicker.Bind( wx.EVT_DIRPICKER_CHANGED, self.OnProjectDirChanged )
 		self.m_button8.Bind( wx.EVT_BUTTON, self.OnClickOption )
 		self.m_button1.Bind( wx.EVT_BUTTON, self.OnClickStart )
 		self.m_button4.Bind( wx.EVT_BUTTON, self.OnClickDelete )
+		self.m_outputDirPicker.Bind( wx.EVT_DIRPICKER_CHANGED, self.OnOutputDirChanged )
+		self.m_button81.Bind( wx.EVT_BUTTON, self.OnClickGetFuncName )
 
 	def __del__( self ):
 		pass
@@ -141,22 +159,10 @@ class BaseFrame ( wx.Frame ):
 	def OnClickDelete( self, event ):
 		event.Skip()
 
+	def OnOutputDirChanged( self, event ):
+		event.Skip()
 
-###########################################################################
-## Class OptionFrame
-###########################################################################
-
-class OptionFrame ( wx.Frame ):
-
-	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"配置", pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
-
-		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
-
-
-		self.Centre( wx.BOTH )
-
-	def __del__( self ):
-		pass
+	def OnClickGetFuncName( self, event ):
+		event.Skip()
 
 

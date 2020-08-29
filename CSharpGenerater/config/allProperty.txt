@@ -619,7 +619,6 @@ notice
 November
 number
 nurse
-object
 obtain
 obvious
 ocean

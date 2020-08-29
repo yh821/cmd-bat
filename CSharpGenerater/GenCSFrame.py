@@ -6,6 +6,7 @@
 
 import sys
 import shutil
+import re
 from BaseFrame import *
 from GenerateCSharp import *
 
@@ -36,7 +37,7 @@ class GenCSFrame(BaseFrame):
 
 	def InitPath(self):
 		self.project_path = '/Users/m5pro/Documents/M5-C/release-2.0'
-		self.m_outputDirPicker.SetPath(self.project_path)
+		self.m_projectDirPicker.SetPath(self.project_path)
 		self.script_path = os.path.join(self.project_path, 'Assets/Scripts')
 		self.plugin_path = os.path.join(self.project_path, 'Assets/Plugins')
 
@@ -90,11 +91,12 @@ class GenCSFrame(BaseFrame):
 		for folder in os.listdir(path):
 			if folder.startswith(folderFlag):
 				dirt = os.path.join(path, folder)
-				shutil.rmtree(dirt)
-				print '删除文件夹:%s' % dirt
+				if os.path.isdir(dirt):
+					shutil.rmtree(dirt)
+					print '删除文件夹:%s' % dirt
 
 	def OnProjectDirChanged(self, event):
-		self.project_path = self.m_outputDirPicker.GetPath()
+		self.project_path = self.m_projectDirPicker.GetPath()
 		self.script_path = os.path.join(self.project_path, 'Assets/Scripts')
 		self.plugin_path = os.path.join(self.project_path, 'Assets/Plugins')
 		print ('工程目录:%s' % self.project_path)
@@ -105,3 +107,35 @@ class GenCSFrame(BaseFrame):
 		if ret == wx.ID_OK:
 			dlg.Destroy()
 			pass
+
+	def OnClickGetFuncName(self, event):
+		script_files = self.GetFiles(self.script_path, '.cs')
+		plugin_files = self.GetFiles(self.plugin_path, '.cs')
+		script_files.extend(plugin_files)
+		CSharp_files = list(set(script_files))
+
+		output_path = self.m_outputDirPicker.GetPath()
+		func_regex = re.compile(r'\w+\s+\w+\s*\(\w*\)\s*\{')
+		name_regex = re.compile(r'\b\w+\s*\(')
+
+		result = []
+		for cs in CSharp_files:
+			with open(cs) as file:
+				content = file.read()
+				result.append(func_regex.findall(content))
+		with open(os.path.join(output_path, 'func_name.txt'), 'w+') as f:
+			for r in result:
+				for v in r:
+					array = name_regex.findall(v)
+					if len(array) == 1:
+						f.write(array[0][:-1].strip() + '\n')
+		print '导出成功'
+
+	def GetFiles(self, dir, ext):
+		allFiles = []
+		for root, directory, files in os.walk(dir):  # 当前根,根下目录,目录下的文件
+			for filename in files:
+				name, suf = os.path.splitext(filename)  # 文件名,文件后缀
+				if suf == ext:
+					allFiles.append(os.path.join(root, filename))  # 把一串字符串组合成路径
+		return allFiles

@@ -26,6 +26,7 @@ class Redirect:
 
 
 folderFlag = 'AutoGenCS_'
+func_dict = {}
 
 
 class GenCSFrame(BaseFrame):
@@ -109,27 +110,42 @@ class GenCSFrame(BaseFrame):
 			pass
 
 	def OnClickGetFuncName(self, event):
+		global func_dict
 		script_files = self.GetFiles(self.script_path, '.cs')
 		plugin_files = self.GetFiles(self.plugin_path, '.cs')
 		script_files.extend(plugin_files)
-		CSharp_files = list(set(script_files))
 
 		output_path = self.m_outputDirPicker.GetPath()
-		func_regex = re.compile(r'\w+\s+\w+\s*\(\w*\)\s*\{')
-		name_regex = re.compile(r'\b\w+\s*\(')
+		func_regex = re.compile(r'\w+[ ]+\w+[ ]*\(.*\)\s*\{')
+		name_regex = re.compile(r'\b\w+[ ]*\(')
 
-		result = []
-		for cs in CSharp_files:
-			with open(cs) as file:
-				content = file.read()
-				result.append(func_regex.findall(content))
-		with open(os.path.join(output_path, 'func_name.txt'), 'w+') as f:
-			for r in result:
-				for v in r:
-					array = name_regex.findall(v)
-					if len(array) == 1:
-						f.write(array[0][:-1].strip() + '\n')
-		print '导出成功'
+		results = []
+		func_dict.clear()
+		for cs in script_files:
+			with open(cs) as f:
+				content = f.read()
+				results.append(func_regex.findall(content))
+		for namelist in results:
+			for name in namelist:
+				if name.startswith('else'):
+					continue
+				array = name_regex.findall(name)
+				if len(array) == 1:
+					name = array[0][:-1].strip()
+					if name in func_dict:
+						func_dict[name] += 1
+					else:
+						func_dict[name] = 1
+		exportFile = os.path.join(output_path, 'func_name.txt')
+		if os.path.exists(exportFile):
+			os.remove(exportFile)
+			# print '删除成功:' + exportFile
+		with open(exportFile, 'w+') as f:
+			func_dict.keys().sort()
+			for key in func_dict.keys():
+				# f.write('{0}\t\t{1}\n'.format(key, func_dict[key]))
+				f.write(key + '\n')
+		print '导出成功:' + exportFile
 
 	def GetFiles(self, dir, ext):
 		allFiles = []

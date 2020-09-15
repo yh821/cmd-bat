@@ -116,7 +116,7 @@ class BaseFrame ( wx.Frame ):
 
 		bSizer21.Add( self.m_staticText11, 0, wx.ALL, 5 )
 
-		self.m_outputDirPicker = wx.DirPickerCtrl( self, wx.ID_ANY, wx.EmptyString, u"选择输出文件的路径", wx.DefaultPosition, wx.DefaultSize, wx.DIRP_DEFAULT_STYLE|wx.DIRP_SMALL )
+		self.m_outputDirPicker = wx.DirPickerCtrl( self, wx.ID_ANY, u"/Users/m5pro/Desktop", u"选择输出文件的路径", wx.DefaultPosition, wx.DefaultSize, wx.DIRP_DEFAULT_STYLE|wx.DIRP_SMALL )
 		bSizer21.Add( self.m_outputDirPicker, 1, wx.ALL, 5 )
 
 		self.m_button81 = wx.Button( self, wx.ID_ANY, u"爬取函数", wx.DefaultPosition, wx.Size( -1,-1 ), 0 )

@@ -112,9 +112,10 @@ class AutoArchive(object):
 	# def open_browser(self):
 	# 	webbrowser.open(ipa_download_url, new=1, autoraise=True)
 
-
-if __name__ == '__main__':
-	# description = input("请输入更新的日志描述:")
-	# pwd = input("请输入蒲公英安装密码:")
-	archive = AutoArchive()
-	archive.clean()
+#
+# if __name__ == '__main__':
+# 	# description = input("请输入更新的日志描述:")
+# 	# pwd = input("请输入蒲公英安装密码:")
+# 	archive = AutoArchive()
+# 	#archive.clean()
+# 	archive.export()

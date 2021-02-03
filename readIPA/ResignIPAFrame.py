@@ -1,15 +1,12 @@
+# -*- coding: utf-8 -*-
+
 import os
 import re
+import time
 import zipfile
 import datetime
 from biplist import *
-
-ipaFile = '/Users/m5pro/Documents/build/testipa/test.ipa'
-zipFile = '/Users/m5pro/Documents/build/testipa/ipa.zip'
-unzipPath = '/Users/m5pro/Documents/build/testipa/ipa'
-outputIpaFile = '/Users/m5pro/Documents/build/testipa/test_{0}.ipa'
-
-unzipIpaPath = '/Users/m5pro/Documents/build/testipa/ipa'
+from BaseFrame import *
 
 
 def unzip(inputPath, outputPath):
@@ -60,7 +57,28 @@ def print_ipa_info(plist_dict, plist_path):
 	print ('Version: %s' % plist_dict['CFBundleShortVersionString'])
 
 
-plist_dict, plist_path = getIpaPlist(ipaFile, unzipPath)
-print_ipa_info(plist_dict, plist_path)
-zipDir(unzipPath, zipFile)
-os.rename(zipFile, outputIpaFile.format(datetime.datetime.now().strftime('%Y%m%d%H%M')))
+class ResignIPAFrame(BaseFrame):
+	def __init__(self, parent):
+		BaseFrame.__init__(self, parent)
+
+	def OnClickStart(self, event):
+		inputFile = self.m_filePicker1.GetPath()
+		if inputFile == None:
+			print('请选择IPA文件')
+			return
+		print("===========开始导出===========")
+		start = time.time()
+		pathFile = os.path.split(inputFile)
+		fileExt = os.path.splitext(inputFile)
+		unzipPath = pathFile[0]
+		zipFile = fileExt[0] + '.zip'
+		plist_dict, plist_path = getIpaPlist(inputFile, unzipPath)
+		bundleVersion = plist_dict['CFBundleShortVersionString']
+		buildVersion = plist_dict['CFBundleVersion']
+		dateString = datetime.datetime.now().strftime('%Y%m%d%H%M')
+		outputFile = u'{0}_{1}b{2}_{3}.ipa'.format(fileExt[0], bundleVersion, buildVersion, dateString)
+		print_ipa_info(plist_dict, plist_path)
+		zipDir(unzipPath, zipFile)
+		os.rename(zipFile, outputFile)
+		end = time.time()
+		print("===========导出成功,用时:%.2f秒===========" % (end - start))

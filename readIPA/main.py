@@ -2,7 +2,6 @@ import os
 import re
 import zipfile
 import datetime
-# import plistlib  # python 3.4+
 from biplist import *
 
 ipaFile = '/Users/m5pro/Documents/build/testipa/test.ipa'
@@ -41,7 +40,6 @@ def getIpaPlist(ipa_path, unzipPath):
 		zip_file.extract(f, unzipPath)
 	zip_file.close()
 
-	# return plistlib.loads(zip_file.read(plist_file))  # python 3.4+
 	plist_path = os.path.join(unzipPath, plist_file)
 	return readPlist(plist_path), plist_path  # python 2.7
 
@@ -62,7 +60,6 @@ def print_ipa_info(plist_dict, plist_path):
 	print ('Version: %s' % plist_dict['CFBundleShortVersionString'])
 
 
-# unzip(ipaFile, unzipPath)
 plist_dict, plist_path = getIpaPlist(ipaFile, unzipPath)
 print_ipa_info(plist_dict, plist_path)
 zipDir(unzipPath, zipFile)

@@ -11,10 +11,10 @@ import wx
 import wx.xrc
 
 ###########################################################################
-## Class BaseFrame
+## Class AutoArchiveBaseFrame
 ###########################################################################
 
-class BaseFrame ( wx.Frame ):
+class AutoArchiveBaseFrame ( wx.Frame ):
 
 	def __init__( self, parent ):
 		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
@@ -25,18 +25,18 @@ class BaseFrame ( wx.Frame ):
 
 		bSizer2 = wx.BoxSizer( wx.HORIZONTAL )
 
-		self.m_staticText1 = wx.StaticText( self, wx.ID_ANY, u"选择IAP文件", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText1 = wx.StaticText( self, wx.ID_ANY, u"工程目录", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText1.Wrap( -1 )
 
 		bSizer2.Add( self.m_staticText1, 0, wx.ALL, 5 )
 
-		self.m_filePicker1 = wx.FilePickerCtrl( self, wx.ID_ANY, wx.EmptyString, u"Select a file", u"*.*", wx.DefaultPosition, wx.DefaultSize, wx.FLP_DEFAULT_STYLE|wx.FLP_SMALL )
-		bSizer2.Add( self.m_filePicker1, 1, wx.ALL, 5 )
+		self.m_dirPicker1 = wx.DirPickerCtrl( self, wx.ID_ANY, wx.EmptyString, u"Select a folder", wx.DefaultPosition, wx.DefaultSize, wx.DIRP_DEFAULT_STYLE|wx.DIRP_SMALL )
+		bSizer2.Add( self.m_dirPicker1, 1, wx.ALL, 5 )
 
 
 		bSizer1.Add( bSizer2, 0, wx.EXPAND, 5 )
 
-		self.m_button2 = wx.Button( self, wx.ID_ANY, u"开始", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_button2 = wx.Button( self, wx.ID_ANY, u"开始归档", wx.DefaultPosition, wx.DefaultSize, 0 )
 		bSizer1.Add( self.m_button2, 0, wx.ALL|wx.EXPAND, 5 )
 
 

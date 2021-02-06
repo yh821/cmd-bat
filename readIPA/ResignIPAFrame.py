@@ -29,11 +29,11 @@ def zip(inputPath, outputPath):
 	zip_file.close()
 
 
-def zipLinux(srcDir, zipDir, zipFile):
+def zipLinux(srcDir, folder, zipFile):
 	print ('开始压缩')
 	start = time.time()
 	os.chdir(srcDir)
-	call(['zip', '-r', zipFile, zipDir])
+	call(['zip', '-r', zipFile, folder])
 	end = time.time()
 	print ('压缩完成, 用时:%.2f秒' % (end - start))
 
@@ -106,16 +106,15 @@ class ResignIPAFrame(ResignIPABaseFrame):
 		build = self.m_textCtrl4.GetValue()
 		filePaths = os.path.split(ipaFile)
 		fileExt = os.path.splitext(ipaFile)
-		fileDir = filePaths[0]
-		unzipPath = os.path.join(fileDir, 'temp')
+		unzipPath = os.path.join(filePaths[0], 'temp')
 		zipFile = fileExt[0] + '.zip'
 		plist_dict, plist_path = getIpaPlist(ipaFile, unzipPath)
 		bundleVersion = plist_dict['CFBundleShortVersionString']
 		buildVersion = plist_dict['CFBundleVersion']
 		dateString = datetime.datetime.now().strftime('%Y%m%d%H%M')
-		outputFile = u'{0}_{1}b{2}_{3}.ipa'.format(fileExt[0], bundleVersion, buildVersion, dateString)
 		resign_info_plist(plist_dict, plist_path, bundleId, displayName, version, build)
-		zipLinux(fileDir, unzipPath, zipFile)
-		os.rename(zipFile, outputFile)
+		zip(unzipPath, zipFile)
+		newIpaFile = u'{0}_{1}b{2}_{3}.ipa'.format(fileExt[0], bundleVersion, buildVersion, dateString)
+		os.rename(zipFile, newIpaFile)
 		end = time.time()
 		print("===========导出成功,用时:%.2f秒===========" % (end - start))

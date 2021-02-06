@@ -2,34 +2,34 @@
 # -*- coding: UTF-8 -*-
 #---------------------------------------------------------#
 
-import shutil,os
-#复制单个文件, 目标不能存在, 否则报错
-shutil.copy("C:\\a\\1.txt","C:\\b")
-#复制并重命名新文件
-shutil.copy("C:\\a\\2.txt","C:\\b\\121.txt")
-#复制整个目录(备份)
-shutil.copytree("C:\\a","C:\\b\\new_a")
+# import shutil,os
+# #复制单个文件, 目标不能存在, 否则报错
+# shutil.copy("C:\\a\\1.txt","C:\\b")
+# #复制并重命名新文件
+# shutil.copy("C:\\a\\2.txt","C:\\b\\121.txt")
+# #复制整个目录(备份)
+# shutil.copytree("C:\\a","C:\\b\\new_a")
 
-#删除文件
-os.unlink("C:\\b\\1.txt")
-os.unlink("C:\\b\\121.txt")
-#删除空文件夹
-try:
-    os.rmdir("C:\\b\\new_a")
-except Exception as ex:
-    print("错误信息："+str(ex))#提示：错误信息，目录不是空的
-#删除文件夹及内容
-shutil.rmtree("C:\\b\\new_a")
+# #删除文件
+# os.unlink("C:\\b\\1.txt")
+# os.unlink("C:\\b\\121.txt")
+# #删除空文件夹
+# try:
+#     os.rmdir("C:\\b\\new_a")
+# except Exception as ex:
+#     print("错误信息："+str(ex))#提示：错误信息，目录不是空的
+# #删除文件夹及内容
+# shutil.rmtree("C:\\b\\new_a")
 
-#移动文件, 目标不能存在, 否则报错
-shutil.move("C:\\a\\1.txt","C:\\b")
-#移动文件夹, 目标不能存在, 否则报错
-shutil.move("C:\\a\\c","C:\\b")
+# #移动文件, 目标不能存在, 否则报错
+# shutil.move("C:\\a\\1.txt","C:\\b")
+# #移动文件夹, 目标不能存在, 否则报错
+# shutil.move("C:\\a\\c","C:\\b")
 
-#重命名文件, 目标不能存在, 否则报错
-shutil.move("C:\\a\\2.txt","C:\\a\\new2.txt")
-#重命名文件夹, 目标不能存在, 否则报错
-shutil.move("C:\\a\\d","C:\\a\\new_d")
+# #重命名文件, 目标不能存在, 否则报错
+# shutil.move("C:\\a\\2.txt","C:\\a\\new2.txt")
+# #重命名文件夹, 目标不能存在, 否则报错
+# shutil.move("C:\\a\\d","C:\\a\\new_d")
 
 #---------------------------------------------------------#
 
@@ -126,14 +126,14 @@ shutil.move("C:\\a\\d","C:\\a\\new_d")
 
 #---------------------------------------------------------#
 
-import os
+# import os
 
-path = '/Users/m5pro/Documents/M5-C/release-2.0/Assets/Scripts'
-for root, directory, files in os.walk(path):  # 当前根,根下目录,目录下的文件
-	for filename in files:
-		name, suf = os.path.splitext(filename)  # 文件名,文件后缀
-		if suf == '.cs':
-			print os.path.join(root, filename)  # 把一串字符串组合成路径
+# path = '/Users/m5pro/Documents/M5-C/release-2.0/Assets/Scripts'
+# for root, directory, files in os.walk(path):  # 当前根,根下目录,目录下的文件
+# 	for filename in files:
+# 		name, suf = os.path.splitext(filename)  # 文件名,文件后缀
+# 		if suf == '.cs':
+# 			print os.path.join(root, filename)  # 把一串字符串组合成路径
 
 #---------------------------------------------------------#
 
@@ -229,14 +229,19 @@ for root, directory, files in os.walk(path):  # 当前根,根下目录,目录下
 
 #---------------------------------------------------------#
 
-# import re
+import re
 # func_regex = re.compile(r'\w+\s+\w+\s*\(\w*\)\s*\{')   # 查找数字
 # name_regex = re.compile(r'\b\w+\s*\(')
+appId = re.compile(r'initWithAppid:@\"[\w\.]+?\"')
+appName = re.compile(r'URLSchemes:@\"[\w\.]+?\"')
 
-# with open('/Users/m5pro/Documents/M5-C/release-2.0/Assets/Editor/MixResource/FileNameTranslatorEditor.cs') as file:
-# 	content = file.read()
-# 	result = func_regex.findall(content)
-# #print result
+#with open('/Users/m5pro/Documents/M5-C/release-2.0/Assets/Editor/MixResource/FileNameTranslatorEditor.cs') as file:
+with open('/Users/m5pro/Documents/M5-C/release/22KO_JuanSongLueLan_b131/iOS/Script/JuanSongLueLanAppController.mm') as file:
+	content = file.read()
+	result1 = appId.findall(content)
+	result2 = appName.findall(content)
+print result1
+print result2
 # with open('/Users/m5pro/Documents/func_name.txt', 'w+') as f:
 # 	for v in result:
 # 		array = name_regex.findall(v)

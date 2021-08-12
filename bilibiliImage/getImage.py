@@ -2,6 +2,7 @@
 # coding: UTF-8
 
 import sys
+import os
 import re
 import urllib
 from collections import deque
@@ -53,21 +54,30 @@ class GetImage(BaseForm):
 		self.Init()
 
 	def Init(self):
-		self.logs = deque(maxlen=10)
+		self.logs = deque(maxlen=19)
+		self.m_textCtrl1.SelectAll()
 		pass
 
 	def OnStart(self, event):
 		vid = self.m_textCtrl1.GetValue()
 		if vid=="":
-			self.log("请填写av/bv号或视频链接")
+			self.Log("请填写av/bv号或视频链接")
 			return
 		match = re.compile(r'(av\d{6}|BV[a-zA-Z0-9]{10})', re.S)
 		vids = re.findall(match, vid)
-		print(vids)
+		# print(vids)
+		count = len(vids)
+		if count==0:
+			self.Log("请填写av/bv号或视频链接")
+			return
+		index = 0
+		self.m_gauge1.SetValue(index)
+		self.m_gauge1.SetRange(count)
 		for vid in vids:
-			self.SaveImage(vid)
+			index += 1
+			self.SaveImage(vid, index, count)
 
-	def SaveImage(self, vid):
+	def SaveImage(self, vid, index, count):
 		try:
 			url = "https://www.bilibili.com/video/%s" % vid
 			res = requests.get(url, headers=header)
@@ -76,11 +86,12 @@ class GetImage(BaseForm):
 			target = soups.find("meta", itemprop="thumbnailUrl")
 			image = "image\%s.jpg" % vid
 			urllib.request.urlretrieve(target["content"], image)
-			self.log(image)
+			self.m_gauge1.SetValue(index)
+			self.Log(image)
 		except Exception:
-			self.log("av/bv号有误")
+			self.Log("av/bv号有误")
 
-	def log(self, msg):
+	def Log(self, msg):
 		self.logs.append(msg)
 		content = ""
 		for log in self.logs:

@@ -8,41 +8,41 @@ import urllib
 from collections import deque
 
 try:
-    import requests
+	import requests
 except:
-    print ("正在安装requests模块，请等待...")
-    success = os.system('pip install requests')
-    if success == 0:
-        print("requests安装成功")
-        import requests
-    else:
-      print ("requests安装失败")
-      quit()
+	print ("正在安装requests模块，请等待...")
+	success = os.system('pip install requests')
+	if success == 0:
+		print("requests安装成功")
+		import requests
+	else:
+		print ("requests安装失败")
+		quit()
 
 try:
-    import wx
+	import wx
 except:
-    print ("正在安装wxpython模块，请等待...")
-    success = os.system('pip install wxpython')
-    if success == 0:
-        print("wxpython安装成功")
-        import wx
-    else:
-      print ("wxpython安装失败")
-      quit()
+	print ("正在安装wxpython模块，请等待...")
+	success = os.system('pip install wxpython')
+	if success == 0:
+		print("wxpython安装成功")
+		import wx
+	else:
+		print ("wxpython安装失败")
+		quit()
 from BaseForm import *
 
 try:
-    import bs4
+	import bs4
 except:
-    print ("正在安装bs4模块，请等待...")
-    success = os.system('pip install beautifulsoup4')
-    if success == 0:
-        print("bs4安装成功")
-        import bs4
-    else:
-      print ("bs4安装失败")
-      quit()
+	print ("正在安装bs4模块，请等待...")
+	success = os.system('pip install beautifulsoup4')
+	if success == 0:
+		print("bs4安装成功")
+		import bs4
+	else:
+		print ("bs4安装失败")
+		quit()
 
 header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36 Edg/86.0.622.51"}
 
@@ -78,13 +78,15 @@ class GetImage(BaseForm):
 			self.SaveImage(vid, index, count)
 
 	def SaveImage(self, vid, index, count):
+		url = "https://www.bilibili.com/video/%s" % vid
+		res = requests.get(url, headers=header)
+		res.encoding = res.apparent_encoding
+		if not os.path.exists("images"):
+			os.mkdir("images")
 		try:
-			url = "https://www.bilibili.com/video/%s" % vid
-			res = requests.get(url, headers=header)
-			res.encoding = res.apparent_encoding
 			soups = bs4.BeautifulSoup(res.text, "html.parser")
 			target = soups.find("meta", itemprop="thumbnailUrl")
-			image = "image\%s.jpg" % vid
+			image = "images\%s.jpg" % vid
 			urllib.request.urlretrieve(target["content"], image)
 			self.m_gauge1.SetValue(index)
 			self.Log(image)
@@ -101,7 +103,7 @@ class GetImage(BaseForm):
 		pass
 
 if __name__ == "__main__":
-    app = wx.App()
-    form = GetImage(None)
-    form.Show()
-    app.MainLoop()
+	app = wx.App()
+	form = GetImage(None)
+	form.Show()
+	app.MainLoop()

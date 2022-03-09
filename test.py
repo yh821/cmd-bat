@@ -229,32 +229,55 @@
 
 #---------------------------------------------------------#
 
-import re
-# func_regex = re.compile(r'\w+\s+\w+\s*\(\w*\)\s*\{')   # 查找数字
-# name_regex = re.compile(r'\b\w+\s*\(')
-appId = re.compile(r'initWithAppid:@\"[\w\.]+?\"')
-appName = re.compile(r'URLSchemes:@\"[\w\.]+?\"')
+# import re
+# # func_regex = re.compile(r'\w+\s+\w+\s*\(\w*\)\s*\{')   # 查找数字
+# # name_regex = re.compile(r'\b\w+\s*\(')
+# appId = re.compile(r'initWithAppid:@\"[\w\.]+?\"')
+# appName = re.compile(r'URLSchemes:@\"[\w\.]+?\"')
 
-#with open('/Users/m5pro/Documents/M5-C/release-2.0/Assets/Editor/MixResource/FileNameTranslatorEditor.cs') as file:
-with open('/Users/m5pro/Documents/M5-C/release/22KO_JuanSongLueLan_b131/iOS/Script/JuanSongLueLanAppController.mm') as file:
-	content = file.read()
-	result1 = appId.findall(content)
-	result2 = appName.findall(content)
-print result1
-print result2
-# with open('/Users/m5pro/Documents/func_name.txt', 'w+') as f:
-# 	for v in result:
-# 		array = name_regex.findall(v)
-# 		if len(array)==1:
-# 			f.write(array[0][:-1].strip()+'\n')
-
-#---------------------------------------------------------#
-
-
+# #with open('/Users/m5pro/Documents/M5-C/release-2.0/Assets/Editor/MixResource/FileNameTranslatorEditor.cs') as file:
+# with open('/Users/m5pro/Documents/M5-C/release/22KO_JuanSongLueLan_b131/iOS/Script/JuanSongLueLanAppController.mm') as file:
+# 	content = file.read()
+# 	result1 = appId.findall(content)
+# 	result2 = appName.findall(content)
+# print result1
+# print result2
+# # with open('/Users/m5pro/Documents/func_name.txt', 'w+') as f:
+# # 	for v in result:
+# # 		array = name_regex.findall(v)
+# # 		if len(array)==1:
+# # 			f.write(array[0][:-1].strip()+'\n')
 
 #---------------------------------------------------------#
 
+# import time
+# date = time.localtime()
+# print("日期:", date)
+# print("时间戳:", time.time())
+# print("日期文本:", time.strftime("%Y-%m-%d %H:%M:%S", date))
+# print("文本转日期:", time.strptime("2022-03-09 20:20:20", "%Y-%m-%d %H:%M:%S"))
+# print("时间戳转日期:", time.localtime(1646827993))
+# print("日期转时间戳:", time.mktime(date))
 
+#---------------------------------------------------------#
+
+import os
+
+def svnRemoveMissingFile(path):
+	temp_path = "{0}\\temp_log.txt".format(path)
+	os.system("svn status %s > %s" % (path, temp_path))
+	with open(temp_path, 'r') as file:
+		while True:
+			line = file.readline()
+			if not line:
+				break
+			if '!'==line[0]:
+			# if line.startswith("! "):
+				rm_path = line.replace("!","")
+				rm_path = rm_path.strip()
+				os.system("svn del %s" % rm_path)
+	os.remove(temp_path)
+	pass
 
 #---------------------------------------------------------#
 
